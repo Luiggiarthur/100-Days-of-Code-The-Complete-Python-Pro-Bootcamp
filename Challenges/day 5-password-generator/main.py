@@ -15,17 +15,17 @@ password = letters[random.randint(0,len(letters)-1)]
 for letter in range(1,nr_letters):
   
   password = password + letters[random.randint(0,len(letters)-1)]
-
+  #random.choice(letters)
 password1 = symbols[random.randint(0,len(symbols)-1)]
 for letter in range(1,nr_symbols):
   
   password1 = password1 + symbols[random.randint(0,len(symbols)-1)]
-
+  #random.choice(symbols)
 password2 = numbers[random.randint(0,len(numbers)-1)]
 for letter in range(1,nr_numbers):
   
   password2 = password2 + numbers[random.randint(0,len(numbers)-1)]
-
+  #random.choice(numbers)
 final_password = password+password1+password2
 #print(final_password)
 
