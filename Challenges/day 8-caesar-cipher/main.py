@@ -17,6 +17,8 @@ def caesar(start_text, shift_amount, cipher_direction):
         
       position = alphabet.index(char)
       new_position = position + shift_amount
+      while new_position > 25:
+          new_position = new_position - 25
       end_text += alphabet[new_position]
         
   print(f"Here's the {cipher_direction}d result: {end_text}")
@@ -38,8 +40,7 @@ while keep_encode == "yes":
   shift = int(input("Type the shift number:\n"))
   
 #TODO-2: What if the user enters a shift that is greater than the number of letters in the alphabet?
-  while shift > 25:
-    shift = shift - 25
+
 #Try running the program and entering a shift number of 45.
 #Add some code so that the program continues to work even if the user enters a shift number greater than 26. 
 #Hint: Think about how you can use the modulus (%).
