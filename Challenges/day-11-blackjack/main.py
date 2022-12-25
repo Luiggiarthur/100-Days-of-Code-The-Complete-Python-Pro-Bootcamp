@@ -14,59 +14,76 @@ from art import logo
 ## The Jack/Queen/King all count as 10.
 ## The the Ace can count as 11 or 1.
 ## Use the following list as the deck of cards:
-#cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
 ## The cards in the list have equal probability of being drawn.
 ## Cards are not removed from the deck as they are drawn.
 ## The computer is the dealer.
-def draw_initcards():  
-  draw = []
+def draw_initcards(): 
+  '''Draw the initial hands'''
+  player_draw = []
   pcdraw = []
   i = 0
   while i <2:
-    draw.append(cards[random.choice(cards)])
+    player_draw.append(cards[random.choice(cards)])
     pcdraw.append(cards[random.choice(cards)])
     i += 1
-  return draw,pcdraw
+    
+     
+  return player_draw,pcdraw
 
+def blackjack(player_draw,pc_draw):
+    '''Ends the game if a blackjack occurs'''
+    if sum(player_draw)==21 or sum(pc_draw)== 21:
+      
+      if sum(player_draw)==21:
+        print("you win with a blackjack")
+      elif sum(pc_draw)== 21:
+        print("you lose, computer has a blackjack")
+      elif sum(pc_draw)== sum(player_draw):
+        print("Draw, both have a blackjack")
+      return False
+    return True
 def sum_cards(draw_list):
+  '''Calculates the score of each players'''
   soma = 0
   for card in draw_list:      
      soma = soma + card
   return soma  
   
 def draw_card(player):
+  '''Draw a card'''
   player.append(cards[random.choice(cards)])
 
 def ace(player_draw):
-  player_sum=0
+  '''Defines if the ace is 1 or 11'''
   for card in player_draw:
     
     if card == 11:
-       #print("soma",player_sum) 
+       
        index = player_draw.index(card)
        player_draw[index] = 1
-       #player_sum =player_sum + card
-       #print("soma corrigida: " ,player_sum_ace)
+       
           
 want2play = True
 while want2play == True:
 
   want2play = input("Do you want to play a game of Blackjack? Type 'y' or 'n':").lower()
-  
-  
-     
+    
   if want2play == "y":
     want2play = True
     clear()
     print(logo)
     player_draw,pc_draw = draw_initcards()
     player_sum = sum_cards(player_draw)
-    print(f"  Your cards: {player_draw}, current score: {player_sum}")
-    print(f"  Computer's first card: {pc_draw[0]}")
+    pc_sum = sum_cards(pc_draw)
+    get_card = blackjack(player_draw,pc_draw)  
+    
+      
+    print(f"    Your cards: {player_draw}, current score: {player_sum}")
+    print(f"    Computer's first card: {pc_draw[0]}")
        
     
-    get_card = True
     while get_card:
       get_card = input("Type 'y' to get another card, type 'n' to pass: ").lower()
       
@@ -86,19 +103,19 @@ while want2play == True:
         elif player_sum < 21:
   
           player_sum = sum_cards(player_draw)
-          print(f"  Your cards: {player_draw}, current score:{player_sum}")
+          print(f"    Your cards: {player_draw}, current score:{player_sum}")
         elif player_sum ==21:
-          print(f"  Your cards: {player_draw}, current score:{player_sum}")
+          print(f"    Your cards: {player_draw}, current score:{player_sum}")
           print("You win!!!!!!!!")
           get_card = False  
           
       elif get_card == "n":
         get_card = False
         pc_sum = sum_cards(pc_draw)
-        print(f"  Computer's score: {pc_sum}")
+        
                 
         if pc_sum < player_sum:
-          while pc_sum < player_sum:
+          while pc_sum < 17:
          
             draw_card(pc_draw)
             pc_sum = sum_cards(pc_draw)
@@ -106,21 +123,25 @@ while want2play == True:
               ace(pc_draw)
               pc_sum = sum_cards(pc_draw)
               if pc_sum > 21:
-                print(f"  Computer's final hand: {pc_draw}, final score: {pc_sum}")
+                print(f"    Computer's final hand: {pc_draw}, final score: {pc_sum}")
                 print("Pc went over 21. You win!!!")
-          elif pc_sum < 21 and pc_sum != player_sum:
-              print(f"  Your final hand: {player_draw}, final score: {player_sum}")
-              print(f"  Computer's final hand: {pc_draw}, final score: {pc_sum}")
+          elif pc_sum <= 21 and pc_sum != player_sum and pc_sum > player_sum :
+              print(f"    Your final hand: {player_draw}, final score: {player_sum}")
+              print(f"    Computer's final hand: {pc_draw}, final score: {pc_sum}")
               print("You lose.")
-          else: 
-             print(f"  Computer's final hand: {pc_draw}, final score: {pc_sum}")
+          elif pc_sum <= 21 and pc_sum != player_sum and pc_sum < player_sum :   
+             print(f"    Your final hand: {player_draw}, final score: {player_sum}")
+             print(f"    Computer's final hand: {pc_draw}, final score: {pc_sum}")
+             print("You win!!!!")
+          elif pc_sum == player_sum: 
+             print(f"    Computer's final hand: {pc_draw}, final score: {pc_sum}")
              print("Game draw")
         elif pc_sum > player_sum:
-          print(f"  Your final hand: {player_draw}, final score: {player_sum}")
-          print(f"  Computer's final hand: {pc_draw}, final score: {pc_sum}")
+          print(f"    Your final hand: {player_draw}, final score: {player_sum}")
+          print(f"    Computer's final hand: {pc_draw}, final score: {pc_sum}")
           print("You lose.")    
         elif pc_sum ==player_sum:
-          print(f"  Computer's final hand: {pc_draw}, final score: {pc_sum}")
+          print(f"    Computer's final hand: {pc_draw}, final score: {pc_sum}")
           print("Game draw")
           
   elif want2play == "n":
