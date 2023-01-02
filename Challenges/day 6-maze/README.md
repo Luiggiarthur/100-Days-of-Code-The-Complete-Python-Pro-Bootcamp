@@ -1,4 +1,4 @@
-#Lost in a Maze
+## Lost in a Maze
 
 # Instructions
 
